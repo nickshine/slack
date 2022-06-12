@@ -373,6 +373,19 @@ func MsgOptionSchedule(postAt string) MsgOption {
 	}
 }
 
+// MsgOptionMetadata provide the metadata for the message.
+//
+// https://api.slack.com/metadata
+func MsgOptionMetadata(m *Metadata) MsgOption {
+	return func(config *sendConfig) error {
+		metadata, err := json.Marshal(m)
+		if err == nil {
+			config.values.Set("metadata", string(metadata))
+		}
+		return err
+	}
+}
+
 // MsgOptionPost posts a messages, this is the default.
 func MsgOptionPost() MsgOption {
 	return func(config *sendConfig) error {
